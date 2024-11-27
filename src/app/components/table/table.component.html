@@ -1,0 +1,20 @@
+<app-chip [optionList]="heroNames" (filterHeroEvent)="filterList($event)"></app-chip>
+<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+  @for (item of displayedColumns; track $index) {
+  <ng-container matColumnDef="{{item}}">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number" >
+      {{item}}
+    </th>
+    <td mat-cell *matCellDef="let element"> {{element[item]}} </td>
+  </ng-container>
+  }
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr class="table-row" mat-row *matRowDef="let row; columns: displayedColumns;" mat-button (click)="openDialog(row)"></tr>
+</table>
+
+<ng-template #modal>
+  @if (selectedHero) {
+    <app-hero-card [hero]="selectedHero"></app-hero-card>
+  }
+</ng-template>

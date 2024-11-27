@@ -1,0 +1,31 @@
+<form>
+    <mat-form-field class="example-chip-list">
+      <mat-label>Filter Heros</mat-label>
+      <mat-chip-grid #chipGrid aria-label="Fruit selection">
+        @for (fruit of selectedOptions(); track $index) {
+          <mat-chip-row (removed)="remove(fruit)">
+            {{fruit}}
+            <button matChipRemove [attr.aria-label]="'remove ' + fruit">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip-row>
+        }
+      </mat-chip-grid>
+      <input
+        name="currentOption"
+        placeholder="Type or select a hero..."
+        #fruitInput
+        [(ngModel)]="currentOption"
+        [matChipInputFor]="chipGrid"
+        [matAutocomplete]="auto"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        (matChipInputTokenEnd)="add($event)"
+      />
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+        @for (fruit of filteredOptions(); track fruit) {
+          <mat-option [value]="fruit">{{fruit}}</mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+  </form>
+  

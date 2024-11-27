@@ -1,0 +1,9 @@
+<mat-card appearance="outlined">
+    <mat-card-header>
+        <mat-card-title>{{title}}</mat-card-title>
+    </mat-card-header>
+    
+    @for (text of texts; track $index) {
+        <mat-card-content>{{text}}</mat-card-content>
+    }
+</mat-card>
