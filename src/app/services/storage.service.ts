@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { filter, of } from 'rxjs';
+import { of } from 'rxjs';
 import { Hero } from '../models/hero.model';
 
 @Injectable({
@@ -17,18 +17,17 @@ export class StorageService {
     const heros = this.getDataBase();
     heros.unshift(newHero);
     this.saveDataBase(heros);
-    return this.getAllHeros();
   }
 
   updateHero(modifiedHero: Hero) {
     const heros = this.getDataBase();
-    heros.forEach(hero => {
-      if(hero.name === modifiedHero.name) {
-        hero = modifiedHero;
-      }
+
+    const modifiedHeroList = heros.map(hero => {
+      
+      if(hero.name === modifiedHero.name) return modifiedHero;
+      else return hero
     })
-    this.saveDataBase(heros);
-    return this.getAllHeros();
+    this.saveDataBase(modifiedHeroList);
   }
 
   deleteHero(name: string) {

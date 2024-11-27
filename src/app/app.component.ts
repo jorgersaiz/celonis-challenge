@@ -28,25 +28,54 @@ export class AppComponent {
     'occupation',
     'memberOf',
     'creator',
+    'action'
   ]
   data$!: Observable<Hero[]>;
-  @ViewChild('modalForm') templateRef!: TemplateRef<any>;
+  selectedHeroName = '';
+  selectedHero!: Hero | undefined;
+  @ViewChild('modalForm') modalForm!: TemplateRef<any>;
+  @ViewChild('deleteModal') deleteModal!: TemplateRef<any>;
   readonly dialog = inject(MatDialog);
-  constructor(private apiService: ApiService, private storageService: StorageService) {
-
-  }
+  constructor(private apiService: ApiService, private storageService: StorageService) {}
 
   ngOnInit() {
     this.getAllHeros()
   }
 
-  openDialog() {
-    this.dialog.open(this.templateRef);
+  openDialog(modal: TemplateRef<any>, resetHero = false) {
+    if(resetHero) this.selectedHero = undefined;
+    this.dialog.open(modal);
   }
 
   createHero(hero: Hero) {
     this.storageService.createHero(hero);
-    this.getAllHeros()
+    this.getAllHeros();
+    this.closeDialog();
+  }
+
+  editHeroForm(hero: Hero) {
+    this.selectedHero = hero;
+    this.openDialog(this.modalForm)
+  }
+
+  editHero(hero: Hero) {
+    this.dialog.closeAll();
+    this.storageService.updateHero(hero);
+    this.getAllHeros();
+  }
+
+  deleteHeroConfirmation(name: string) {
+    this.selectedHeroName = name;
+    this.openDialog(this.deleteModal)
+  }
+
+  deleteHero() {
+    this.storageService.deleteHero(this.selectedHeroName);
+    this.closeDialog()
+    this.getAllHeros();
+  }
+
+  closeDialog() {
     this.dialog.closeAll()
   }
 

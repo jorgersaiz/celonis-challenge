@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import {MatSelectModule} from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -14,7 +14,9 @@ import { Gender, Hero } from '../../models/hero.model';
 })
 export class HeroFormComponent {
 
+  @Input() selectedHero!: Hero | undefined;
   @Output() submitHeroEvent = new EventEmitter <Hero>();
+  @Output() editHeroEvent = new EventEmitter <Hero>();
   public heroForm = new FormGroup({
     name: new FormControl<string>('', Validators.required),
     gender: new FormControl<Gender>(Gender.M),
@@ -25,9 +27,19 @@ export class HeroFormComponent {
     creator: new FormControl<string>('', Validators.required),
   })
 
-  submitForm() {
-    const hero: Hero = this.heroForm.value as Hero;
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['selectedHero'] && !!this.selectedHero) {
+      this.heroForm.setValue(this.selectedHero as Hero);
+      this.heroForm.controls.name.disable();
+    }
+  }
 
-    this.submitHeroEvent.emit(hero)
+  submitForm() {
+    const hero: Hero = this.heroForm.getRawValue() as Hero;
+    if(!!this.selectedHero) {
+      this.editHeroEvent.emit(hero)
+    } else {
+      this.submitHeroEvent.emit(hero)
+    }
   }
 }
