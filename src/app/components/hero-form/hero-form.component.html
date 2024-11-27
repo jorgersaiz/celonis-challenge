@@ -1,0 +1,48 @@
+<div class="modal-content rounded-4 shadow">
+    <div class="modal-header p-5 pb-4 border-bottom-0">
+      <h1 class="fw-bold mb-0 fs-2">Submit your hero</h1>
+      <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+    </div>
+
+    <div class="modal-body p-5 pt-0">
+        <form [formGroup]="heroForm" (ngSubmit)="submitForm()">
+            <mat-form-field>
+                <mat-label>Name</mat-label>
+                <input matInput formControlName="name">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Gender</mat-label>
+                <mat-select formControlName="gender">
+                    <mat-option value="male">Male</mat-option>
+                    <mat-option value="female">Female</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Citizenship</mat-label>
+                <input matInput formControlName="citizenship">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Skills</mat-label>
+                <input matInput formControlName="skills">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Occupation</mat-label>
+                <input matInput formControlName="occupation">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Member of</mat-label>
+                <input matInput formControlName="memberOf">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Creator</mat-label>
+                <input matInput formControlName="creator">
+            </mat-form-field>
+            <section>
+                
+                <div class="d-flex justify-content-center">
+                  <button mat-flat-button type="submit" [disabled]="heroForm.invalid">CREATE HERO</button>
+                </div>
+            </section>
+        </form>
+    </div>
+  </div>

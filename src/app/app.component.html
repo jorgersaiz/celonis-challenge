@@ -1,8 +1,18 @@
 <router-outlet />
 <div class="container my-5">
     <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 border shadow-lg">
+
+        <div class="flex-right mb-4">
+            <button mat-mini-fab aria-label="Example icon button with a menu icon" (click)="openDialog()">
+                <mat-icon fontIcon="add"></mat-icon>
+            </button>
+        </div>
+
         <app-table [displayedColumns]="columns" [data]="data$ | async"></app-table>
 
     </div>
 </div>
 
+<ng-template #modalForm>
+    <app-hero-form (submitHeroEvent)="createHero($event)"></app-hero-form>
+</ng-template>
