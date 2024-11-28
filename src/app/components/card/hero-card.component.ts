@@ -21,7 +21,7 @@ export class HeroCardComponent {
   }
 
   capitalizeFirstLetter(word: string) {
-    if (!word) return ''; // Verifica que no esté vacío
+    if (!word) return ''; 
     return word.charAt(0).toUpperCase() + word.slice(1);
   }
 }

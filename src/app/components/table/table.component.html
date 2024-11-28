@@ -1,4 +1,5 @@
-<div style="width: fit-content;">
+<div class="table-container">
+  <app-radio-form (switchDataViewEvent)="switchDataView($event)"></app-radio-form>
   <app-chip [optionList]="heroNames" (filterHeroEvent)="filterList($event)"></app-chip>
   <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
@@ -6,20 +7,24 @@
       @if (item !== 'action') {
         <ng-container matColumnDef="{{item}}">
           <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
-            <div style="display: flex; flex-direction: column;">
+            <div class="table-head">
               <div class="d-flex">
-                @if (isCreated) {
-                  @if (formatToChart(dataSource.data!, item).length > 5) {
-                    <app-bar-chart [data]="formatToChart(dataSource.data!, item)" [label]="item" ></app-bar-chart>
-                  } @else {
-                    <app-pie-chart [data]="formatToChart(dataSource.data!, item)" [label]="item"></app-pie-chart>
+                @if (dataview) {
+                  <app-kpi [data]="formatToChart(dataSource.data!, item)"></app-kpi>
+                } @else {
+                  @if (isCreated) {
+                    @if (formatToChart(dataSource.data!, item).length > 5) {
+                      <app-bar-chart [data]="formatToChart(dataSource.data!, item)" [label]="item" ></app-bar-chart>
+                    } @else {
+                      <app-pie-chart [data]="formatToChart(dataSource.data!, item)" [label]="item"></app-pie-chart>
+                    }
                   }
                 }
               </div>
-              {{item}}
+              {{item | capitalizeFirstLetter}}
             </div>
           </th>
-          <td mat-cell *matCellDef="let element">{{element[item]}}</td>
+          <td mat-cell *matCellDef="let element">{{element[item] | capitalizeFirstLetter}}</td>
         </ng-container>
       }
     }

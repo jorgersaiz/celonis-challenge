@@ -8,7 +8,7 @@ module.exports = {
   transform: {
     '^.+\\.(ts|js|html)$': 'jest-preset-angular',
   },
-  transformIgnorePatterns: ['node_modules/(?!.*\\.mjs$)'], // Transforma dependencias modernas
+  transformIgnorePatterns: ['node_modules/(?!.*\\.mjs$)'],
   moduleFileExtensions: ['ts', 'html', 'js', 'json', 'mjs'],
   globals: {
     'ts-jest': {

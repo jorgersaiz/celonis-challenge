@@ -10,11 +10,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { ChartValues } from '../../models/chart.model';
 import { BarChartComponent } from "../bar-chart/bar-chart.component";
 import { PieChartComponent } from "../pie-chart/pie-chart.component";
+import { KpiComponent } from "../kpi/kpi.component";
+import { RadioFormComponent } from "../radio-form/radio-form.component";
+import { CapitalizeFirstLetterPipe } from "../../pipes/capitalize-first-letter.pipe";
 
 
 @Component({
   selector: 'app-table',
-  imports: [MatTableModule, MatSortModule, ChipComponent, HeroCardComponent, MatIconModule, MatButtonModule, BarChartComponent, PieChartComponent],
+  imports: [MatTableModule, MatSortModule, ChipComponent, HeroCardComponent, MatIconModule, MatButtonModule, BarChartComponent, PieChartComponent, KpiComponent, RadioFormComponent, CapitalizeFirstLetterPipe],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss'
 })
@@ -28,6 +31,7 @@ export class TableComponent {
   heroNames: string[] = [];
   selectedHero!: Hero;
   isCreated = true;
+  dataview = true;
   private selectedOptions: string[] = [];
   
   readonly dialog = inject(MatDialog);
@@ -81,6 +85,11 @@ export class TableComponent {
   editHero(hero:Hero, event: MouseEvent) {
     event.stopPropagation();
     this.editHeroEvent.emit(hero)
+  }
+
+  switchDataView(isKpi: boolean) {
+    if(isKpi) this.dataview = true;
+    else this.dataview = false;
   }
 
   formatToChart(heros: Hero[], key: string): ChartValues[] {

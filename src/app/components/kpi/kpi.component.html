@@ -1,0 +1,5 @@
+<div class="d-flex m-4 kpi">
+    @for (item of kpiValues; track $index) {
+        <small><b>{{item.name | capitalizeFirstLetter}}</b>: {{item.percentage.toFixed(2)}}%</small>
+    }
+</div>

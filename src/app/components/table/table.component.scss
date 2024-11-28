@@ -17,3 +17,16 @@ th.mat-sort-header-sorted {
 .delete-btn:hover {
   color: #dc3545;
 }
+
+td {
+  text-align: center;
+}
+
+.table-container {
+  width: fit-content;
+}
+
+.table-head {
+  display: flex; 
+  flex-direction: column;
+}

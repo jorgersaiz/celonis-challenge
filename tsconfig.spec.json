@@ -5,8 +5,8 @@
   "compilerOptions": {
     "outDir": "./out-tsc/spec",
     "types": ["jest", "node"],
-    "module": "commonjs", // Jest necesita CommonJS
-    "target": "es2016",  // Soporte para características modernas
+    "module": "commonjs",
+    "target": "es2016",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
   },
