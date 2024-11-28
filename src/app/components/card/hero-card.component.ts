@@ -15,7 +15,7 @@ export class HeroCardComponent {
   ngOnInit() {
 
     this.title = this.hero?.name;
-    Object.keys(this.hero).forEach(key => {
+    Object?.keys(this.hero).forEach(key => {
       this.texts.push(`${this.capitalizeFirstLetter(key)}: ${this.capitalizeFirstLetter(this.hero[key as keyof Hero])}`)
     })
   }

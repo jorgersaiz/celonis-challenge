@@ -35,8 +35,6 @@ export class StorageService {
 
     const filteredHeroList = heros.filter(hero => hero.name !== name);
     this.saveDataBase(filteredHeroList)
-
-    return this.getAllHeros();
   }
 
   checkDataBase(): boolean {

@@ -4,12 +4,14 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/spec",
-    "types": [
-      "jasmine"
-    ]
+    "types": ["jest", "node"],
+    "module": "commonjs", // Jest necesita CommonJS
+    "target": "es2016",  // Soporte para características modernas
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
-  "include": [
-    "src/**/*.spec.ts",
-    "src/**/*.d.ts"
-  ]
+  "files": ["src/test.ts"],
+  "include": ["src/**/*.spec.ts", "src/**/*.d.ts"]
 }
+
+
