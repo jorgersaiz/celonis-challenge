@@ -1,34 +1,47 @@
-<app-chip [optionList]="heroNames" (filterHeroEvent)="filterList($event)"></app-chip>
-<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+<div style="width: fit-content;">
+  <app-chip [optionList]="heroNames" (filterHeroEvent)="filterList($event)"></app-chip>
+  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
-  @for (item of displayedColumns; track $index) {
-    @if (item !== 'action') {
-      <ng-container matColumnDef="{{item}}">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
-          {{item}}
-        </th>
-        <td mat-cell *matCellDef="let element"> {{element[item]}} </td>
-      </ng-container>
+    @for (item of displayedColumns; track $index) {
+      @if (item !== 'action') {
+        <ng-container matColumnDef="{{item}}">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
+            <div style="display: flex; flex-direction: column;">
+              <div class="d-flex">
+                @if (isCreated) {
+                  @if (formatToChart(dataSource.data!, item).length > 5) {
+                    <app-bar-chart [data]="formatToChart(dataSource.data!, item)" [label]="item" ></app-bar-chart>
+                  } @else {
+                    <app-pie-chart [data]="formatToChart(dataSource.data!, item)" [label]="item"></app-pie-chart>
+                  }
+                }
+              </div>
+              {{item}}
+            </div>
+          </th>
+          <td mat-cell *matCellDef="let element">{{element[item]}}</td>
+        </ng-container>
+      }
     }
-  }
-  <ng-container matColumnDef="action">
-    <th mat-header-cell *matHeaderCellDef> Acciones </th>
-    <td mat-cell *matCellDef="let element" >
-      <div class="d-flex justify-center">
-        <button mat-icon-button aria-label="Edit hero" class="edit-btn" (click)="editHero(element, $event)">
-          <mat-icon fontIcon="edit"></mat-icon>
-        </button>
-        <button mat-icon-button aria-label="Delete hero" class="delete-btn" (click)="deleteHero(element.name, $event)">
-          <mat-icon fontIcon="delete"></mat-icon>
-        </button>
-      </div>
-      
-    </td>
-  </ng-container>
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr class="table-row" mat-row *matRowDef="let row; columns: displayedColumns;" mat-button (click)="openDialog(row)">
-  </tr>
-</table>
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let element" >
+        <div class="d-flex justify-center">
+          <button mat-icon-button aria-label="Edit hero" class="edit-btn" (click)="editHero(element, $event)">
+            <mat-icon fontIcon="edit"></mat-icon>
+          </button>
+          <button mat-icon-button aria-label="Delete hero" class="delete-btn" (click)="deleteHero(element.name, $event)">
+            <mat-icon fontIcon="delete"></mat-icon>
+          </button>
+        </div>
+        
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr class="table-row" mat-row *matRowDef="let row; columns: displayedColumns;" mat-button (click)="openDialog(row)">
+    </tr>
+  </table>
+</div>
 
 <ng-template #modal>
   @if (selectedHero) {

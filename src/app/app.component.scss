@@ -1,1 +1,7 @@
 @use '../styles' as *;
+
+.row {
+    overflow-x: scroll;
+    overflow-y: scroll;
+    max-height: calc(100vh - 100px);
+}

@@ -7,10 +7,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { HeroCardComponent } from "../card/hero-card.component";
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { ChartValues } from '../../models/chart.model';
+import { BarChartComponent } from "../bar-chart/bar-chart.component";
+import { PieChartComponent } from "../pie-chart/pie-chart.component";
+
 
 @Component({
   selector: 'app-table',
-  imports: [MatTableModule, MatSortModule, ChipComponent, HeroCardComponent, MatIconModule, MatButtonModule],
+  imports: [MatTableModule, MatSortModule, ChipComponent, HeroCardComponent, MatIconModule, MatButtonModule, BarChartComponent, PieChartComponent],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss'
 })
@@ -23,6 +27,8 @@ export class TableComponent {
   dataSource = new MatTableDataSource(this.data || []);
   heroNames: string[] = [];
   selectedHero!: Hero;
+  isCreated = true;
+  private selectedOptions: string[] = [];
   
   readonly dialog = inject(MatDialog);
   @ViewChild(MatSort) sort!: MatSort;
@@ -33,9 +39,15 @@ export class TableComponent {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['data']) {
+      this.isCreated = false;
+      
       this.dataSource.data = this.data || [];
       this.heroNames = [];
       this.data?.forEach(hero => this.heroNames.push(hero.name))
+      this.filterList(this.selectedOptions)
+      setTimeout(() => {
+        this.isCreated = true
+      }, 50);
     }
   }
   ngAfterViewInit() {
@@ -43,11 +55,17 @@ export class TableComponent {
   }
 
   filterList(selectedOptions: string[]) {
+    this.isCreated = false;
+    this.selectedOptions = selectedOptions;
     if(selectedOptions.length > 0) {
       this.dataSource.data = this.data?.filter(hero => selectedOptions.includes(hero.name)) || [];
     } else {
       this.dataSource.data = this.data || [];
     }
+    setTimeout(() => {
+      this.isCreated = true
+    }, 50);
+    
   }
 
   openDialog(hero: Hero) {
@@ -63,5 +81,25 @@ export class TableComponent {
   editHero(hero:Hero, event: MouseEvent) {
     event.stopPropagation();
     this.editHeroEvent.emit(hero)
+  }
+
+  formatToChart(heros: Hero[], key: string): ChartValues[] {
+    const chartList: ChartValues[] = [] 
+    heros.forEach(hero => {
+      if(chartList.length > 0 && chartList.find(item => item.name === hero[key as keyof Hero] )) {
+        chartList.forEach(item => {
+          if(item.name === hero[key as keyof Hero]) {
+            item.value++
+          } 
+        })
+      } else {
+        const newItem: ChartValues = {
+          name: hero[key as keyof Hero],
+          value: 1
+        }
+        chartList.push(newItem)
+      }
+    })
+    return chartList;
   }
 }
